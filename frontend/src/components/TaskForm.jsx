@@ -16,7 +16,7 @@ function TaskForm({ onTaskCreated }) {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/auth/users");
+        const res = await axios.get("/api/auth/users");
         setUsers(res.data);
       } catch (err) {
         console.error("Failed to fetch users:", err);
@@ -43,7 +43,7 @@ function TaskForm({ onTaskCreated }) {
     if (!assignedTo) return showMessage("error", "Please select a user");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/tasks", {
+      await axios.post("/api/tasks", {
         title,
         description: desc,
         priority,
@@ -56,7 +56,7 @@ function TaskForm({ onTaskCreated }) {
       resetForm();
       onTaskCreated?.();
     } catch (err) {
-      console.error("Manual task error:", err.response?.data || err.message);
+      console.error("Manual task error:", err);
       showMessage("error", err.response?.data?.error || "Error creating task");
     }
   };
@@ -65,7 +65,7 @@ function TaskForm({ onTaskCreated }) {
     e.preventDefault();
 
     try {
-      const createRes = await axios.post("http://localhost:5000/api/tasks", {
+      const createRes = await axios.post("/api/tasks", {
         title,
         description: desc,
         priority,
@@ -76,7 +76,7 @@ function TaskForm({ onTaskCreated }) {
 
       const taskId = createRes.data._id;
 
-      await axios.post("http://localhost:5000/api/tasks/smart-assign", {
+      await axios.post("/api/tasks/smart-assign", {
         taskId,
         username: user.username,
       });
@@ -85,54 +85,71 @@ function TaskForm({ onTaskCreated }) {
       resetForm();
       onTaskCreated?.();
     } catch (err) {
-      console.error("Smart assign error:", err.response?.data || err.message);
+      console.error("Smart assign error:", err);
       showMessage("error", err.response?.data?.error || "Smart assign failed");
     }
   };
 
   return (
-    <form className="task-form fade-in">
+    <form className="task-form fade-in" onSubmit={handleManualSubmit}>
       <h3>Create Task</h3>
 
       {message.text && (
         <p className={`form-message ${message.type}`}>{message.text}</p>
       )}
 
-      <input
-        type="text"
-        placeholder="Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Description"
-        value={desc}
-        onChange={(e) => setDesc(e.target.value)}
-      />
+      <div className="form-group">
+        <label>
+          Title<span>*</span>
+        </label>
+        <input
+          type="text"
+          placeholder="Task title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
+      </div>
 
-      <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-        <option value="Low">Low</option>
-        <option value="Medium">Medium</option>
-        <option value="High">High</option>
-      </select>
+      <div className="form-group">
+        <label>Description</label>
+        <input
+          type="text"
+          placeholder="Optional description"
+          value={desc}
+          onChange={(e) => setDesc(e.target.value)}
+        />
+      </div>
 
-      <select
-        value={assignedTo}
-        onChange={(e) => setAssignedTo(e.target.value)}
-      >
-        <option value="">-- Select a user --</option>
-        {users.map((u) => (
-          <option key={u._id} value={u.email}>
-            {u.email}
-          </option>
-        ))}
-      </select>
+      <div className="form-group">
+        <label>Priority</label>
+        <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+
+      <div className="form-group">
+        <label>Assign to</label>
+        <select
+          value={assignedTo}
+          onChange={(e) => setAssignedTo(e.target.value)}
+        >
+          <option value="">-- Select user manually --</option>
+          {users.map((u) => (
+            <option key={u._id} value={u.email}>
+              {u.email}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <div className="form-buttons">
-        <button onClick={handleManualSubmit}>Create Task</button>
-        <button onClick={handleSmartAssign}>Smart Assign</button>
+        <button type="submit">Create Task</button>
+        <button onClick={handleSmartAssign} type="button">
+          Smart Assign
+        </button>
       </div>
     </form>
   );

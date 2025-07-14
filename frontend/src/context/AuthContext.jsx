@@ -1,29 +1,27 @@
-// src/context/AuthProvider.jsx
-import { createContext, useState } from "react";
+// context/AuthContext.js
+import { createContext, useState, useEffect } from "react";
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  let storedUser = null;
-  try {
-    storedUser = JSON.parse(localStorage.getItem("user"));
-  } catch (err) {
-    console.warn("Invalid user in localStorage");
-    localStorage.removeItem("user");
-  }
+  const [user, setUser] = useState(null);
 
-  const [user, setUser] = useState(storedUser || null);
-
-  const login = (userObj) => {
-    setUser(userObj);
-    localStorage.setItem("user", JSON.stringify(userObj));
+  const login = (userData) => {
+    setUser(userData);
   };
 
   const logout = () => {
+    localStorage.removeItem("token");
     setUser(null);
-    localStorage.removeItem("user");
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      // Optionally decode token here to get user info
+      setUser({ username: "Persisted User" });
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
@@ -31,3 +29,5 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+export default AuthContext;

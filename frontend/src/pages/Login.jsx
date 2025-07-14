@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "../api/axios";
 import { useNavigate, Link } from "react-router-dom";
 import useAuth from "../context/useAuth";
+import LoadingSpinner from "../components/LoadingSpinner";
 import "./Login.css";
 
 function Login() {
@@ -9,6 +10,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -23,13 +25,14 @@ function Login() {
         password,
       });
 
-      setSuccess("Login successful!");
+      // Save token and update context
       localStorage.setItem("token", res.data.token);
       login({ username: res.data.username });
 
-      // Optional auto-redirect
+      setSuccess("Login successful!");
       setTimeout(() => navigate("/dashboard"), 1000);
     } catch (err) {
+      console.error("Login failed:", err);
       setError(err.response?.data?.error || "Login failed");
     }
   };
@@ -39,6 +42,7 @@ function Login() {
       <form className="login-form" onSubmit={handleLogin}>
         <h3>Login</h3>
 
+        {loading && <LoadingSpinner text="Logging you in..." />}
         {success && <p className="success">{success}</p>}
         {error && <p className="error">{error}</p>}
 
@@ -46,6 +50,7 @@ function Login() {
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          disabled={loading}
         />
 
         <input
@@ -53,9 +58,12 @@ function Login() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          disabled={loading}
         />
 
-        <button type="submit">Login</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Please wait..." : "Login"}
+        </button>
 
         <p>
           Don’t have an account? <Link to="/register">Register</Link>

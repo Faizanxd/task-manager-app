@@ -4,22 +4,26 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import SidebarLayout from "./components/SidebarLayout";
-import Logs from "./pages/Logs";
+import Logs from "./components/Logs";
 import TaskListPage from "./pages/TaskListPage";
+import NotFound from "./pages/NotFound";
 
 function App() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+
+  if (loading) return <div>Loading...</div>; // or a spinner component
 
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+
       <Route
         path="/dashboard"
         element={
           user ? (
             <SidebarLayout>
-              <Dashboard />{" "}
+              <Dashboard />
             </SidebarLayout>
           ) : (
             <Navigate to="/login" />
@@ -31,7 +35,7 @@ function App() {
         element={
           user ? (
             <SidebarLayout>
-              <Logs />{" "}
+              <Logs />
             </SidebarLayout>
           ) : (
             <Navigate to="/login" />
@@ -43,7 +47,7 @@ function App() {
         element={
           user ? (
             <SidebarLayout>
-              <TaskListPage />{" "}
+              <TaskListPage />
             </SidebarLayout>
           ) : (
             <Navigate to="/login" />
@@ -51,7 +55,7 @@ function App() {
         }
       />
 
-      <Route path="*" element={<Navigate to="/login" />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

@@ -1,33 +1,24 @@
-// src/context/AuthProvider.jsx
-import { createContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  let storedUser = null;
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // <-- new
 
-  try {
-    storedUser = JSON.parse(localStorage.getItem("user"));
-  } catch {
-    localStorage.removeItem("user");
-  }
-
-  const [user, setUser] = useState(storedUser || null);
-
-  const login = (userObj) => {
-    setUser(userObj);
-    localStorage.setItem("user", JSON.stringify(userObj));
-  };
-
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
-  };
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    setLoading(false); // <-- once check is done
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, setUser, loading }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+export default AuthContext;

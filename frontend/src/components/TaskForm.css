@@ -1,11 +1,11 @@
 .task-form {
-  background: white;
+  background: #ffffff;
   padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  max-width: 600px;
-  margin-left: 0; /* remove centering */
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   margin-bottom: 2rem;
+  overflow-x: auto;
 }
 
 .task-form h3 {
@@ -86,4 +86,25 @@
   .task-form .form-buttons {
     flex-direction: column;
   }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+.form-group label span {
+  color: red;
+  margin-left: 4px;
+}
+
+.task-form select:invalid {
+  color: #999;
 }
