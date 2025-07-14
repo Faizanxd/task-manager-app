@@ -1,0 +1,134 @@
+.logs-container {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+  position: relative;
+  animation: fadeInUp 0.3s ease;
+}
+
+.logs-container h3 {
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  text-align: center;
+}
+
+/* Timeline vertical line */
+.timeline {
+  position: relative;
+  padding-left: 30px;
+  margin-left: 10px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 12px;
+  width: 2px;
+  background-color: #cbd5e1;
+}
+
+/* Individual timeline item */
+.timeline-item {
+  position: relative;
+  margin-bottom: 1.5rem;
+  padding-left: 1rem;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: -3px;
+  width: 12px;
+  height: 12px;
+  background-color: #6366f1;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 0 0 2px #cbd5e1;
+}
+
+.log-user-action {
+  font-weight: 600;
+  color: #4f46e5;
+  font-size: 0.95rem;
+}
+
+.log-timestamp {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.log-change-details {
+  font-size: 0.85rem;
+  color: #374151;
+  margin-top: 0.5rem;
+  background-color: #f3f4f6;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border-left: 3px solid #6366f1;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .logs-container {
+    padding: 1rem;
+  }
+}
+
+/* Timeline dot + icon */
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-left: 2.5rem;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 0;
+  top: 0.25rem;
+  width: 24px;
+  height: 24px;
+  background: #6366f1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: bold;
+  box-shadow: 0 0 0 2px #cbd5e1;
+}
+
+.dot-icon {
+  z-index: 2;
+  position: absolute;
+  font-size: 0.9rem;
+  transform: translateY(-12px);
+}
+
+.dot-initials {
+  z-index: 1;
+  font-size: 0.7rem;
+  font-weight: 600;
+}

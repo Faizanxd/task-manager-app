@@ -49,14 +49,15 @@ function SidebarLayout({ children }) {
       {isMobile && menuOpen && (
         <nav className="mobile-menu">
           <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
-            📝 Tasks
+            📝 Dashboard
+          </Link>
+          <Link to="/tasks" onClick={() => setMenuOpen(false)}>
+            🔧 Tasks
           </Link>
           <Link to="/logs" onClick={() => setMenuOpen(false)}>
             📜 Logs
           </Link>
-          <Link to="/placeholder" onClick={() => setMenuOpen(false)}>
-            🔧 Placeholder
-          </Link>
+
           <button onClick={handleLogout}>🔓 Logout</button>
         </nav>
       )}
@@ -75,9 +76,10 @@ function SidebarLayout({ children }) {
           </div>
 
           <nav className="sidebar-nav">
-            <Link to="/dashboard">{collapsed ? "📝" : "📝 Tasks"}</Link>
+            <Link to="/dashboard">{collapsed ? "📝" : "📝 Dashboard"}</Link>
+            <Link to="/tasks">{collapsed ? "🔧" : "🔧 Tasks"}</Link>
             <Link to="/logs">{collapsed ? "📜" : "📜 Logs"}</Link>
-            <Link to="/placeholder">{collapsed ? "🔧" : "🔧 Placeholder"}</Link>
+
             <button className="nav-btn" onClick={handleLogout}>
               {collapsed ? "🔓" : "🔓 Logout"}
             </button>

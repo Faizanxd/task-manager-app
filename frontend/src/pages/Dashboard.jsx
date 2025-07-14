@@ -1,16 +1,22 @@
 import KanbanBoard from "../components/KanbanBoard";
 import TaskForm from "../components/TaskForm";
 import UserTaskCounts from "../components/UserTaskCounts";
+import "./Dashboard.css";
 
 function Dashboard() {
   return (
-    <div>
-      <h2 style={{ marginBottom: "1rem" }}>Dashboard</h2>
-      <TaskForm />
-      <div style={{ marginTop: "2rem" }}>
+    <div className="dashboard-page">
+      <h2 className="dashboard-heading">Dashboard</h2>
+
+      <div className="dashboard-section">
+        <TaskForm />
+      </div>
+
+      <div className="dashboard-section">
         <KanbanBoard />
       </div>
-      <div style={{ marginTop: "2rem" }}>
+
+      <div className="dashboard-section">
         <UserTaskCounts />
       </div>
     </div>
