@@ -1,0 +1,89 @@
+.task-form {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  max-width: 600px;
+  margin-left: 0; /* remove centering */
+  margin-bottom: 2rem;
+}
+
+.task-form h3 {
+  margin-bottom: 1rem;
+}
+
+.task-form input,
+.task-form select {
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.task-form .form-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.task-form button {
+  background-color: #704df3;
+  color: white;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.task-form button:hover {
+  background-color: #593bc5;
+}
+
+.form-message {
+  margin-bottom: 1rem;
+  padding: 0.6rem;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.form-message.success {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.form-message.error {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Fade animation */
+.fade-in {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .task-form {
+    padding: 1rem;
+  }
+
+  .task-form .form-buttons {
+    flex-direction: column;
+  }
+}

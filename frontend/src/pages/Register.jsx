@@ -1,55 +1,61 @@
 import { useState } from "react";
 import axios from "../api/axios";
 import { useNavigate, Link } from "react-router-dom";
+import "./Register.css";
 
 function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
+    setSuccess("");
 
     try {
       await axios.post("http://localhost:5000/api/auth/register", {
         username,
         password,
       });
-      alert("User registered");
-      navigate("/login");
+      setSuccess("User registered successfully!");
+      // Optional auto-redirect
+      setTimeout(() => navigate("/login"), 1000);
     } catch (err) {
       setError(err.response?.data?.error || "Registration failed");
     }
   };
 
   return (
-    <form onSubmit={handleRegister}>
-      <h3>Register</h3>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div className="register-container">
+      <form className="register-form" onSubmit={handleRegister}>
+        <h3>Register</h3>
 
-      <input
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <br />
+        {success && <p className="success">{success}</p>}
+        {error && <p className="error">{error}</p>}
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <br />
+        <input
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
 
-      <button type="submit">Register</button>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-      <p>
-        Already have an account? <Link to="/login">Login</Link>
-      </p>
-    </form>
+        <button type="submit">Register</button>
+
+        <p>
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
+      </form>
+    </div>
   );
 }
 

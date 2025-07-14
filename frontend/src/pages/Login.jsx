@@ -1,18 +1,21 @@
 import { useState } from "react";
-import axios from "../api/axios"; // or wherever your axios helper is
+import axios from "../api/axios";
 import { useNavigate, Link } from "react-router-dom";
 import useAuth from "../context/useAuth";
+import "./Login.css";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuth(); // ✅ pulled from context
+  const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
+    setSuccess("");
 
     try {
       const res = await axios.post("http://localhost:5000/api/auth/login", {
@@ -20,47 +23,45 @@ function Login() {
         password,
       });
 
-      alert("Login successful");
-
-      // Optional: store token separately
+      setSuccess("Login successful!");
       localStorage.setItem("token", res.data.token);
-
-      // ✅ Call login to update AuthContext
       login({ username: res.data.username });
 
-      // ✅ Redirect
-      navigate("/dashboard");
+      // Optional auto-redirect
+      setTimeout(() => navigate("/dashboard"), 1000);
     } catch (err) {
       setError(err.response?.data?.error || "Login failed");
     }
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <h3>Login</h3>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleLogin}>
+        <h3>Login</h3>
 
-      <input
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <br />
+        {success && <p className="success">{success}</p>}
+        {error && <p className="error">{error}</p>}
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <br />
+        <input
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
 
-      <button type="submit">Login</button>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-      <p>
-        Don't have an account? <Link to="/register">Register</Link>
-      </p>
-    </form>
+        <button type="submit">Login</button>
+
+        <p>
+          Don’t have an account? <Link to="/register">Register</Link>
+        </p>
+      </form>
+    </div>
   );
 }
 
