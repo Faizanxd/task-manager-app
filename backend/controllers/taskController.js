@@ -142,23 +142,28 @@ exports.editTask = async (req, res) => {
 exports.deleteTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const { username } = req.body;
+    const { username } = req.body; // ✅ You must ensure username is sent in body
 
     const task = await Task.findByIdAndDelete(id);
-    if (!task) return res.status(404).json({ error: "Task not found" });
+    if (!task) {
+      return res.status(404).json({ error: "Task not found" });
+    }
 
+    // Log deletion
     await Log.create({
       taskId: id,
-      user: username,
+      user: username || "Unknown",
       action: "Deleted task",
       timestamp: new Date(),
     });
 
+    // Real-time update
     getIO().emit("taskUpdate", { type: "delete", id });
-    res.json({ success: true });
+
+    return res.json({ success: true, message: "Task deleted" });
   } catch (error) {
     console.error("Delete Task Error:", error);
-    res.status(500).json({ error: "Server error deleting task" });
+    return res.status(500).json({ error: "Server error deleting task" });
   }
 };
 

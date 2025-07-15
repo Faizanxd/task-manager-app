@@ -254,6 +254,8 @@
   border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
+  border-radius: 6px;
+  margin-left: 6px;
 }
 
 .btn-safe {

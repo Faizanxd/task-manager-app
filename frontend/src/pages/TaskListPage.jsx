@@ -85,6 +85,21 @@ function TaskListPage() {
     }
   };
 
+  const deleteTask = async (taskId) => {
+    if (!window.confirm("Are you sure you want to delete this task?")) return;
+
+    try {
+      await axios.delete(`/api/tasks/${taskId}`, {
+        data: { username: user.username },
+      });
+
+      setTasks((prev) => prev.filter((task) => task._id !== taskId));
+    } catch (err) {
+      console.error("Delete failed:", err);
+      alert("Could not delete task");
+    }
+  };
+
   const filteredTasks = tasks.filter((task) => {
     const matchSearch =
       task.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -162,6 +177,12 @@ function TaskListPage() {
                     onClick={() => setEditingTask(task)}
                   >
                     Edit
+                  </button>
+                  <button
+                    className="btn-danger "
+                    onClick={() => deleteTask(task._id)}
+                  >
+                    Delete
                   </button>
                 </div>
               </div>
