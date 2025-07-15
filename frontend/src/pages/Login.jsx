@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "../api/axios";
+import axios from "../api/axios"; // ✅ central instance
 import { useNavigate, Link } from "react-router-dom";
 import useAuth from "../context/useAuth";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -18,9 +18,10 @@ function Login() {
     e.preventDefault();
     setError("");
     setSuccess("");
+    setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
+      const res = await axios.post("/api/auth/login", {
         username,
         password,
       });
@@ -34,6 +35,8 @@ function Login() {
     } catch (err) {
       console.error("Login failed:", err);
       setError(err.response?.data?.error || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 

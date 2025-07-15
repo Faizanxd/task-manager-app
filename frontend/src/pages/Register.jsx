@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "../api/axios";
+import axios from "../api/axios"; // ✅ centralized axios instance
 import { useNavigate, Link } from "react-router-dom";
 import "./Register.css";
 
@@ -16,12 +16,11 @@ function Register() {
     setSuccess("");
 
     try {
-      await axios.post("http://localhost:5000/api/auth/register", {
+      await axios.post("/api/auth/register", {
         username,
         password,
       });
       setSuccess("User registered successfully!");
-      // Optional auto-redirect
       setTimeout(() => navigate("/login"), 1000);
     } catch (err) {
       setError(err.response?.data?.error || "Registration failed");
