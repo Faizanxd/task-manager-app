@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:5000", // 👈 Your Express server
-  withCredentials: true, // ✅ Include cookies if needed
+  baseURL: "https://task-manager-app-1-d5y6.onrender.com/api",
+  withCredentials: true,
 });
 
 export default instance;
