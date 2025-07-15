@@ -5,37 +5,49 @@ const http = require("http");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const taskRoutes = require("./routes/taskRoutes");
-const socketIO = require("socket.io"); // ✅ import socket.io
-const { setIO } = require("./socket"); // 🔄 update from initSocket → setIO
+const socketIO = require("socket.io");
+const { setIO } = require("./socket");
 
 dotenv.config();
 connectDB();
 
 const app = express();
 
-// ✅ Set proper CORS config for both Express & Socket.IO
-const allowedOrigin = "http://localhost:5173";
-app.use(cors({ origin: allowedOrigin, credentials: true }));
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://task-manager-app-kfq7.vercel.app",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
-// ✅ Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 
-// ✅ Create HTTP server
 const server = http.createServer(app);
 
-// ✅ Attach Socket.IO with CORS
 const io = socketIO(server, {
   cors: {
-    origin: allowedOrigin,
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
     credentials: true,
   },
 });
-setIO(io); // ✅ store io globally (you must export setIO in socket.js)
 
-// ✅ Socket.IO connection listener
+setIO(io);
+
 io.on("connection", (socket) => {
   console.log("✅ Client connected:", socket.id);
 
@@ -44,6 +56,5 @@ io.on("connection", (socket) => {
   });
 });
 
-// ✅ Start server
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
