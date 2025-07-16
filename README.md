@@ -52,9 +52,15 @@ All core logic (smart assign, conflict handling, real-time sync) was first built
 
 Main App URL:
 
+To access the site with full functionality, since i'm using render it puts my backend to sleep so click on this link to wake it up. It might take 1-2 mins ( https://task-manager-app-1-d5y6.onrender.com)
+https://task-manager-app-ka8x.vercel.app/dashboard
+
 Demo Walkthrough Video:
 
 Test Logic Site:
+
+To access the site with full functionality, since i'm using render it puts my backend to sleep so click on this link to wake it up. It might take 1-2 mins ( https://test-website-for-task-manager.onrender.com)
+https://test-website-for-task-manager.vercel.app/
 
 ## Setup & Installation
 
@@ -116,3 +122,16 @@ The user sends the task ID, the changes, and the lastModifiedAt value it origina
         Keep their version.
 
         Discard their version and accept the latest from the server.
+
+# Environment Variables
+
+-Frontend
+
+VITE_API_BASE_URL=https://task-manager-app-2-aqnk.onrender.com
+
+-Backend
+
+    PORT=5000
+    MONGO_URI=mongodb+srv://fsreal8167:NofKVKrSvHhrIkz8@cluster1.ufda0fo.mongodb.net/
+    JWT_SECRET=supersecretkey
+    FRONTEND_URL=https://task-manager-app-ka8x.vercel.app
