@@ -55,7 +55,7 @@ Main App URL:
 To access the site with full functionality, since i'm using render it puts my backend to sleep so click on this link to wake it up. It might take 1-2 mins ( https://task-manager-app-1-d5y6.onrender.com)
 https://task-manager-app-ka8x.vercel.app/dashboard
 
-Demo Walkthrough Video:
+Demo Walkthrough Video: https://drive.google.com/file/d/1hNNRTfU2FYHUMfdbh5CuS1choW6pdqAf/view?usp=sharing
 
 Test Logic Site:
 
