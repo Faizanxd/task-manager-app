@@ -127,7 +127,7 @@ The user sends the task ID, the changes, and the lastModifiedAt value it origina
 
 -Frontend
 
-VITE_API_BASE_URL=https://task-manager-app-2-aqnk.onrender.com
+VITE_API_BASE_URL=https://task-manager-app-1-d5y6.onrender.com
 
 -Backend
 
